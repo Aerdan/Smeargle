@@ -1,0 +1,15 @@
+name="Example"
+[font]
+"Melissa 8"="melissa8.toml"
+[script.example]
+filename="example.txt"
+font="Melissa 8"
+min_tiles_per_line=0
+max_tiles_per_line=0
+tilemap_format="thingy"
+leading_zeroes=false
+tile_offset=0
+raw_filename="example_raw.png"
+dedupe_filename="example_ded.png"
+tilemap_filename="example.tbl"
+little_endian=false
