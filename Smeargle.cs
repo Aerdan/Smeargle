@@ -42,6 +42,18 @@ namespace Smeargle {
 				Scripts.Add(script);
 			}
 		}
+		private void CreateDirectoryForFile(string filename) {
+			int index = filename.LastIndexOf('/');
+			string directory;
+
+			if (index == -1) {
+				return;
+			}
+			directory = filename.Substring(0, index);
+			if (!Directory.Exists(directory)) {
+				Directory.CreateDirectory(filename.Substring(0, index));
+			}
+		}
 		public void RenderScript(Script script, bool output=true) {
 			List<Line> lines;
 			if (output) { Console.WriteLine("Rendering text..."); }
@@ -53,11 +65,14 @@ namespace Smeargle {
 			if (output) { Console.WriteLine($"{tilemap.Tiles} tiles generated, {tilemap.UniqueTiles} unique."); }
 
 			if (output) { Console.WriteLine("Writing compressed tiles..."); }
+			CreateDirectoryForFile(script.DedupeFilename);
 			script.RenderTilesToFile(tilemap.Compressed, script.DedupeFilename);
 			if (output) { Console.WriteLine("Writing raw tiles..."); }
+			CreateDirectoryForFile(script.RawFilename);
 			script.RenderTilesToFile(tilemap.Raw, script.RawFilename);
 
 			if (output) { Console.WriteLine("Writing map indices..."); }
+			CreateDirectoryForFile(script.TilemapFilename);
 			using (StreamWriter writer = new StreamWriter(File.OpenWrite(script.TilemapFilename))) {
 				foreach (Tuple<Line, string> line in tilemap.Indices) {
 					if (script.OutputFormat == "thingy") {
